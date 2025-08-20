@@ -31,6 +31,19 @@ const PaymentPage: React.FC = () => {
     }));
   };
 
+  const formatCVV = (value: string) => {
+    // 숫자만 추출하고 최대 3자리까지만 허용
+    return value.replace(/[^0-9]/g, "").slice(0, 3);
+  };
+
+  const handleCVVChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatCVV(e.target.value);
+    setFormData((prev) => ({
+      ...prev,
+      cvv: formatted,
+    }));
+  };
+
   const formatCardNumber = (value: string) => {
     const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
     const matches = v.match(/\d{4,16}/g);
@@ -178,7 +191,7 @@ const PaymentPage: React.FC = () => {
                 id="cvv"
                 name="cvv"
                 value={formData.cvv}
-                onChange={handleInputChange}
+                onChange={handleCVVChange}
                 placeholder="123"
                 maxLength={3}
                 disabled={isProcessing}
